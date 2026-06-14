@@ -1,11 +1,9 @@
-class Admin:
-    def __init__(self, cargo, nivel):
+from modelos.persona import Persona
+
+class Administrador(Persona):
+    def __init__(self, nombre, telefono, cargo):
+        super().__init__(nombre, telefono)
         self.__cargo = cargo
-        self.__nivel = nivel
 
-    def verReportes(self):
-        print("Viendo reportes")
-
-    def agregarIngrediente(self):
-        print("Agregando Ingredientes")
-        
+    def describir(self):
+        return f"{super().__str__()}, Cargo: {self.__cargo}" 

@@ -1,30 +1,20 @@
-from models.pizzeria import Pizzeria
-from models.pedido import Pedido
-from models.pizza import Pizza
-
-pizzeria = Pizzeria("Fast Pizza")
-
-while True:
-    print("\n1. Crear pedido")
-    print("2. Ver reporte")
-    print("3. Salir")
-
-    op = int(input("Opcion: "))
-
-    if op == 1: 
-        pedido = Pedido(1, "2025-01-01", "PREPARANDO")
-
-        pizza = Pizza(1, "Hawaiana", "Piña y jamón", 1, 2000)
-        pedido.agregarPizza(pizza)
-        pedido.calcularTotal()
-
-        pizzeria.registrarPedido(pedido)
-
-        print("Pedido Creado ")
-
-    elif op == 2:
-        pizzeria.generarReporte()
-
-    elif op == 3:
-        break
-
+import sys
+import os
+ 
+sys.path.insert(0, os.path.dirname(__file__))
+ 
+from modelos.pizzeria import Pizzeria
+from modelos.administrador import Administrador
+from menu.menu import menu_principal, pausar
+ 
+# algoritmo principal
+ 
+pizzeria = Pizzeria("La Bella Napoli", "Bogotá D.C.", 10)
+admin    = Administrador("Anderson", "3001234567", "Gerente")
+ 
+print("\n  Cargando datos...")
+pizzeria.cargar_ingredientes()
+pizzeria.cargar_pizzas()
+pausar()
+ 
+menu_principal(pizzeria, admin)

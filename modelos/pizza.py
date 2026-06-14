@@ -1,35 +1,61 @@
 import numpy as np
 
 class Pizza(): 
-    def __init__(self, id, nombre, descripcion, tamano, precio):
-        self.__pizzaId = id
+    def __init__(self, id_pizza, nombre, precio_venta):
+        self.__id = id_pizza
         self.__nombre = nombre
-        self.__descripcion = descripcion
-        self.__tamano = tamano
-        self.__precio = precio
-        self.__disponible = True
-
-        self.__ingredientes = np.full([10], fill_value=None)
-        self.__cantIng = 0
-
-    def agregarIngrediente(self, ingrediente):
-        self.__ingredientes[self.__cantIng] = ingrediente
-        self.__cantIng += 1
-
-    def verificarIngrediente(self, ingrediente): 
-        for i in range(self.__cantIng):
-            if self.__ingredientes[i].hayStock == False:
-                return False 
+        self.__precio_venta = float(precio_venta)
         
-        return True 
+        self.__ingredientes = np.full([10], fill_value=None, dtype=object)
+        self.__cantidades = np.full([10], fill_value= 0, dtype=float)
+        self.__nro_ing = 0
 
-    def descontarIngrediente(self, ingrediente):
-        for i in range(self.__cantIng):
-            self.__ingredientes[i].descontarCantidad(1)
-
-
-    def getPrecio(self):
-        return self.__precio
-
-    def getNombre(self):
+    @property
+    def id_pizza(self):
+        return self.__id
+ 
+    @property
+    def nombre(self):
         return self.__nombre
+    @nombre.setter
+    def nombre(self, n):
+        self.__nombre = n
+ 
+    @property
+    def precio_venta(self):
+        return self.__precio_venta
+    @precio_venta.setter
+    def precio_venta(self, p):
+        self.__precio_venta = float(p)
+ 
+    @property
+    def nro_ing(self):
+        return self.__nro_ing
+
+    def agregar_ingrediente(self, ingrediente, cantidad):
+        self.__ingredientes[self.__nro_ing] = ingrediente
+        self.__cantidades[self.__nro_ing]   = cantidad
+        self.__nro_ing += 1
+ 
+    def verificar_ingredientes(self):
+        for i in range(self.__nro_ing):
+            ing  = self.__ingredientes[i]
+            cant = self.__cantidades[i]
+            if ing.cantidad < cant:
+                print(f"Sin ingrediente: '{ing.nombre}' "
+                      f"(necesita {cant} {ing.unidad}, hay {ing.cantidad}).")
+                return False
+        return True
+ 
+    def descontar_ingredientes(self):
+        for i in range(self.__nro_ing):
+            self.__ingredientes[i].descontar(self.__cantidades[i])
+ 
+    def calcular_costo(self):
+        costo = 0.0
+        for i in range(self.__nro_ing):
+            costo += (self.__ingredientes[i].valor_unitario * self.__cantidades[i])
+        return costo
+ 
+    def describir(self):
+        print(f"  {self.__nombre} — ${self.__precio_venta}")

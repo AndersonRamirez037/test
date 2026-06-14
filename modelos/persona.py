@@ -19,5 +19,5 @@ class Persona:
     def telefono(self, t):
         self.__telefono = t
 
-    def __str__(self):
+    def describir(self):
         return (f"Nombre: {self.__nombre}, Tel: {self.__telefono}")
