@@ -50,12 +50,12 @@ class Pedido():
     def get_pizza(self, i):
         return self.__pizzas[i]
 
-    def __str__(self): 
+    def describir(self): 
         nombres = ""
         for i in range(self.__nro_pizzas):
             nombres += self.__pizzas[i].nombre
             if i < self.__nro_pizzas - 1:
                 nombres += ", "
-        print(f"  Pedido #{self.__id} | {self.__cliente.nombre} | "
+        print(f"  Pedido #{self.__id_pedido} | {self.__cliente.nombre} | "
               f"{self.__tipo} | {self.__estado} | "
               f"Pizzas: {nombres} | Total: ${self.__total}")

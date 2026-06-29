@@ -50,7 +50,7 @@ class Pizzeria:
     def cargar_ingredientes(self):
         fichero = open("datos/ingredientes.csv", "r")
         lineas  = fichero.readlines()
-        for linea in lineas:
+        for linea in lineas: 
             datos = linea.strip().split(";")
             self.__inventario[self.__nro_ing] = Ingrediente(
                 datos[0], datos[1], datos[2], datos[3], datos[4], datos[5]
@@ -98,7 +98,7 @@ class Pizzeria:
         pedido.calcular_total()
  
         self.__pedidos[self.__nro_pedidos] = pedido
-        self.__nro_pedidos    = self.__nro_pedidos + 1
+        self.__nro_pedidos = self.__nro_pedidos + 1
         self.__pizzas_en_prod = self.__pizzas_en_prod + nro_sel
  
         fichero = open("datos/pedidos.csv", "a")
@@ -120,7 +120,7 @@ class Pizzeria:
     def cancelar_pedido(self, id_pedido):
         for i in range(self.__nro_pedidos):
             if self.__pedidos[i].id_pedido == id_pedido:
-                if self.__pedidos[i].estado != "Preparando":
+                if self.__pedidos[i].estado != "preparando":
                     print(f"  El pedido #{id_pedido} ya está "
                           f"'{self.__pedidos[i].estado}' y no puede cancelarse.")
                     return
@@ -132,6 +132,18 @@ class Pizzeria:
                 print(f"  Pedido #{id_pedido} cancelado.")
                 return
         print(f"  Pedido #{id_pedido} no encontrado.")
+
+    def _eliminar_pedido_csv(self, id_pedido):
+        fichero  = open("datos/pedidos.csv", "r")
+        lineas   = fichero.readlines()
+        fichero.close()
+ 
+        fichero = open("datos/pedidos.csv", "w")
+        for linea in lineas:
+            datos = linea.strip().split(";")
+            if int(datos[0]) != id_pedido:
+                fichero.writelines([linea])
+        fichero.close()
  
     def notificar_cliente(self, id_pedido):
         for i in range(self.__nro_pedidos):
@@ -152,7 +164,7 @@ class Pizzeria:
     def calcular_ventas(self):
         total = 0.0
         for i in range(self.__nro_pedidos):
-            total = total + self.__pedidos[i].total
+            total += self.__pedidos[i].total
         return total
  
     def generar_reporte(self):
@@ -176,12 +188,12 @@ class Pizzeria:
         activos = 0
         print("\n  Pedidos en preparación:")
         for i in range(self.__nro_pedidos):
-            if self.__pedidos[i].estado == "Preparando":
+            if self.__pedidos[i].estado == "preparando":
                 self.__pedidos[i].describir()
                 activos = activos + 1
-        if activos == 0:
-            print("No hay pedidos en preparación.")
- 
+        if activos != 0:
+            return True  
+        
     def get_pizza_catalogo(self, indice):
         return self.__catalogo[indice]
  

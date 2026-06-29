@@ -98,12 +98,21 @@ def flujo_marcar_listo(pizzeria):
  
 def flujo_cancelar_pedido(pizzeria):
     encabezado("CANCELAR PEDIDO")
-    pizzeria.mostrar_pedidos_activos()
-    try:
-        id_p = int(input("\n  ID del pedido a cancelar: "))
-        pizzeria.cancelar_pedido(id_p)
-    except ValueError:
-        print("  ID inválido.")
+    if pizzeria.mostrar_pedidos_activos():
+        try: 
+            id_p = int(input("\n ID del pedido a cancelar: "))
+            pizzeria.cancelar_pedido(id_p)
+            pizzeria._eliminar_pedido_csv(id_p)
+        except ValueError: 
+            print("  ID inválido.")
+    else:
+        print("No hay pedidos")
+
+    # try:
+    #     id_p = int(input("\n  ID del pedido a cancelar: "))
+    #     pizzeria.cancelar_pedido(id_p)
+    # except ValueError:
+    #     print("  ID inválido.")
  
  
 # Menú administración 
